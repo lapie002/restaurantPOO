@@ -16,6 +16,27 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 
 $adminsManager = new AdminsManager($db);
 
+if(isset($_POST['email']) && isset($_POST['password']))
+{
+
+    $email = $_POST['email'];
+    $pwd = $_POST['password'];
+
+    $admin = $adminsManager->getAdmin($email,$pwd);
+
+    if($admin==false)
+    {
+      header('Location: http://localhost/restaurantPOO/login.php');
+    }
+    else
+    {
+    	$_SESSION['nom']    = $admin->getNom();
+      $_SESSION['prenom'] = $admin->getPrenom();
+      $_SESSION['login']  = "OK";
+
+      header('Location: http://localhost/restaurantPOO/showplats.php');
+    }
+}
 ?>
 
 
@@ -35,7 +56,7 @@ $adminsManager = new AdminsManager($db);
     <div class="row text-center pad-top" >
         <div class="col-md-4 col-md-offset-4">
             <div class="row ">
-                  <form method="post" action="login.php">
+                  <form role="form" method="post" action="">
                       <div class="col-md-12 ">
                           <div class="form-group">
                               <label for="email">Email :</label>

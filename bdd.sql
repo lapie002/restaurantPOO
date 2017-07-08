@@ -1,3 +1,6 @@
+      -- insertion d un utilisateur admin via MySQL
+      -- INSERT INTO `Admins` (`ID`, `NOM`, `PRENOM`, `EMAIL`, `PASSWORD`) VALUES (NULL, 'lapierre', 'bruno', 'lapierre.bruno@gmail.com', '63a9f0ea7bb98050796b649e85481845');
+
 # -----------------------------------------------------------------------------
 #       TABLE : COMPOSER
 # -----------------------------------------------------------------------------
