@@ -78,43 +78,43 @@ $platsManager = new PlatsManager($db);
               </ul>
           </div>    -->
   <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav side-nav">
-                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#plats"><i class="fa fa-fw fa-cutlery"></i>Gestion Plats <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="plats" class="collapse">
-                            <li>
-                                <a href="http://localhost/restaurantPOO/addplat.php">Ajouter un Plat</a>
-                            </li>
-                            <li>
-                                <a href="http://localhost/restaurantPOO/showplats.php">Lister les plats</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                      <a href="javascript:;" data-toggle="collapse" data-target="#menu"><i class="fa fa-fw fa-arrows-v"></i>Gestion Menus <i class="fa fa-fw fa-caret-down"></i></a>
-                      <ul id="menu" class="collapse">
-                          <li>
-                              <a href="http://localhost/restaurantPOO/addmenu.php">Ajouter un Menu</a>
-                          </li>
-                          <li>
-                              <a href="http://localhost/restaurantPOO/showmenus.php">Lister les Menus</a>
-                          </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <a href="javascript:;" data-toggle="collapse" data-target="#admin"><i class="fa fa-fw fa-arrows-v"></i>Gestion Admins <i class="fa fa-fw fa-caret-down"></i></a>
-                      <ul id="admin" class="collapse">
-                          <li>
-                              <a href="http://localhost/restaurantPOO/addadmin.php">Ajouter un Admin</a>
-                          </li>
-                          <li>
-                              <a href="http://localhost/restaurantPOO/showadmins.php">Lister les Admins</a>
-                          </li>
-                      </ul>
-                    </li>
-                </ul>
-            </div>
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav side-nav">
+          <li>
+              <a href="javascript:;" data-toggle="collapse" data-target="#plats"><i class="fa fa-fw fa-cutlery"></i>Gestion Plats <i class="fa fa-fw fa-caret-down"></i></a>
+              <ul id="plats" class="collapse">
+                  <li>
+                      <a href="http://localhost/restaurantPOO/addplat.php">Ajouter un Plat</a>
+                  </li>
+                  <li>
+                      <a href="http://localhost/restaurantPOO/showplats.php">Lister les plats</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="javascript:;" data-toggle="collapse" data-target="#menu"><i class="fa fa-fw fa-bars"></i>Gestion Menus <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="menu" class="collapse">
+                <li>
+                    <a href="http://localhost/restaurantPOO/addmenu.php">Ajouter un Menu</a>
+                </li>
+                <li>
+                    <a href="http://localhost/restaurantPOO/showmenus.php">Lister les Menus</a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:;" data-toggle="collapse" data-target="#admin"><i class="fa fa-fw fa-users"></i>Gestion Admins <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="admin" class="collapse">
+                <li>
+                    <a href="http://localhost/restaurantPOO/addadmin.php">Ajouter un Admin</a>
+                </li>
+                <li>
+                    <a href="http://localhost/restaurantPOO/showadmins.php">Lister les Admins</a>
+                </li>
+            </ul>
+          </li>
+      </ul>
+  </div>
 
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
