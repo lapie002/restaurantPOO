@@ -1,7 +1,4 @@
 <?php
-// remplacer par autoload :
-//include_once 'connection.php';
-
 // On enregistre notre autoload.
 function chargerClasse($classname)
 {
@@ -309,7 +306,7 @@ if(isset($_SESSION['login'])){
                                                                     <h4 class="modal-title">Attention</h4>
                                                                   </div>
                                                                   <div class="modal-body">
-                                                                    <p>Etes vous sur de vouloir supprimer le plat numero <?=$num;?> ?</p>
+                                                                    <p>Êtes-vous sûr de vouloir supprimer le plat numero <?=$num;?> ?</p>
                                                                   </div>
                                                                   <div class="modal-footer">
                                                                     <a href="http://localhost/restaurantPOO/deleteplat.php?id=<?=$num;?>"><button type="button" class="btn btn-default">Supprimer</button></a>
@@ -324,12 +321,6 @@ if(isset($_SESSION['login'])){
                                             <?php
                                             //fin du foreach sur les plats
                                             ;}
-                                            //fin du test de session admin
-                                            }
-                                            else
-                                            {
-                                              header('Location: http://localhost/restaurantPOO/login.php');
-                                            }
                                              ?>
                                         </tbody>
                                     </table>
@@ -354,3 +345,12 @@ if(isset($_SESSION['login'])){
 <script src="./js/bootstrap.min.js"></script>
 
 </html>
+<?php
+//fin du test de session admin
+}
+else
+{
+  //on redirige vers la page de login
+  header('Location: http://localhost/restaurantPOO/login.php');
+}
+?>

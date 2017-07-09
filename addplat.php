@@ -63,6 +63,11 @@ if (isset($_POST['creer']))
   }
 }
 
+if(isset($_SESSION['login'])){
+
+  $nomAdminSession    = $_SESSION['nom'];
+  $prenomAdminSession = $_SESSION['prenom'];
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -262,7 +267,7 @@ if (isset($_POST['creer']))
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="http://localhost/restaurantPOO/showplats.php?deconnexion=true"><i class="fa fa-fw fa-power-off"></i>Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -331,3 +336,12 @@ if (isset($_POST['creer']))
 <script src="./js/bootstrap.min.js"></script>
 
 </html>
+<?php
+//fin du test de session admin
+}
+else
+{
+  //on redirige vers la page de login
+  header('Location: http://localhost/restaurantPOO/login.php');
+}
+?>

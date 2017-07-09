@@ -1,7 +1,4 @@
 <?php
-// remplacer par autoload :
-//include_once 'connection.php';
-// On enregistre notre autoload.
 function chargerClasse($classname)
 {
   require 'models/'.$classname.'.php';
@@ -9,10 +6,11 @@ function chargerClasse($classname)
 spl_autoload_register('chargerClasse');
 // On appelle session_start() APRÈS avoir enregistré l'autoload.
 session_start();
+
 if (isset($_GET['deconnexion']))
 {
   session_destroy();
-  header('Location: .');
+  header('Location: http://localhost/restaurantPOO/login.php');
   exit();
 }
 
@@ -66,6 +64,11 @@ if (isset($_POST['updatePlatId']))
 }
 
 $monObjetPlat = $platsManager->getPLat($platIdToUpdate);
+
+if(isset($_SESSION['login'])){
+
+  $nomAdminSession    = $_SESSION['nom'];
+  $prenomAdminSession = $_SESSION['prenom'];
 
 ?>
 <!DOCTYPE html>
@@ -266,7 +269,7 @@ $monObjetPlat = $platsManager->getPLat($platIdToUpdate);
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="http://localhost/restaurantPOO/showplats.php?deconnexion=true"><i class="fa fa-fw fa-power-off"></i>Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -335,3 +338,12 @@ $monObjetPlat = $platsManager->getPLat($platIdToUpdate);
 <script src="./js/bootstrap.min.js"></script>
 
 </html>
+<?php
+//fin du test de session admin
+}
+else
+{
+  //on redirige vers la page de login
+  header('Location: http://localhost/restaurantPOO/login.php');
+}
+?>
