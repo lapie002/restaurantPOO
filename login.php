@@ -34,7 +34,9 @@ if(isset($_POST['email']) && isset($_POST['password']))
       $_SESSION['prenom'] = $admin->getPrenom();
       $_SESSION['login']  = "OK";
 
+      // un fois logger on redirige vers une page admin ici showpltas.php 
       header('Location: http://localhost/restaurantPOO/showplats.php');
+
     }
 }
 ?>

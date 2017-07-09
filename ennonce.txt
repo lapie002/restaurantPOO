@@ -1,0 +1,17 @@
+L'application doit gérer l'ajout, la modification et la suppression de plats et de menus. Elle doit aussi permettre d'afficher tous les plats, ou les menus et les plats associés.
+Compétences :
+
+1.Maquetter une application
+2.Concevoir une base de données
+3.Mettre en place une base de données
+4.Développer une interface utilisateur
+5.Développer des composants d'accès aux données (PDO)
+
+Créez avec un logiciel de traitement de texte un document comportant :
+
+- un résumé entre 40 et 100 caractères de l'interêt et but du site
+- Capture d'écran du schéma ou dessin de la base de donnée (tables et leurs champs avec leur types(int, varchar...))
+- Les 2 versions de maquettes/mockup( au format images) uniquement de votre page qui liste des menus et les plats associés : une version pour ordinateurs et une autre version pour smartphones. ( https://www.alsacreations.com/article/lire/1183-mockup-rough-maquette-zoning.html )
+Posez ce document à la racine de votre dépot.
+L'interface utilisateur doit être responsive(media queries) sur un smartphone au minimum sur vos pages publiques(liste menu/plat) et idéalement côté admin sur les formulaires de saisi des menus/plats si vous avez le temps.
+Envoyez par mail le lien github du projet par mail avant le 24 juillet ( nvilla@simplon.co et pbelaire@simplon.co)

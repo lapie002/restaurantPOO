@@ -13,10 +13,10 @@ spl_autoload_register('chargerClasse');
 // On appelle session_start() APRÈS avoir enregistré l'autoload.
 session_start();
 
-if (isset($_GET['deconnexion']))
+if(isset($_GET['deconnexion']))
 {
   session_destroy();
-  header('Location: .');
+  header('Location: http://localhost/restaurantPOO/login.php');
   exit();
 }
 
@@ -24,6 +24,11 @@ $db = Db::getInstance();
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // On émet une alerte à chaque fois qu'une requête a échoué.
 
 $platsManager = new PlatsManager($db);
+
+if(isset($_SESSION['login'])){
+
+  $nomAdminSession    = $_SESSION['nom'];
+  $prenomAdminSession = $_SESSION['prenom'];
 
 ?>
 <!DOCTYPE html>
@@ -140,7 +145,7 @@ $platsManager = new PlatsManager($db);
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
                                     <div class="media-body">
-                                        <h5 class="media-heading"><strong><?php //echo $first_name . ' ' . $last_name; ?></strong>
+                                        <h5 class="media-heading"><strong><?php echo $prenomAdminSession . ' ' . $nomAdminSession; ?></strong>
                                         </h5>
                                         <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                                         <p>Lorem ipsum dolor sit amet, consectetur...</p>
@@ -155,7 +160,7 @@ $platsManager = new PlatsManager($db);
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
                                     <div class="media-body">
-                                        <h5 class="media-heading"><strong><?php //echo $first_name . ' ' . $last_name; ?></strong>
+                                        <h5 class="media-heading"><strong><?php echo $prenomAdminSession . ' ' . $nomAdminSession;  ?></strong>
                                         </h5>
                                         <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                                         <p>Lorem ipsum dolor sit amet, consectetur...</p>
@@ -214,7 +219,7 @@ $platsManager = new PlatsManager($db);
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php //echo $first_name . ' ' . $last_name;?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            <a href="#"><i class="fa fa-fw fa-user"></i>Profile</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
@@ -224,7 +229,7 @@ $platsManager = new PlatsManager($db);
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="http://localhost/restaurantPOO/showplats.php?deconnexion=true"><i class="fa fa-fw fa-power-off"></i>Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -297,7 +302,6 @@ $platsManager = new PlatsManager($db);
 
                                             <div class="modal fade" id="myModal<?=$num;?>" role="dialog">
                                                               <div class="modal-dialog">
-
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                   <div class="modal-header">
@@ -308,16 +312,25 @@ $platsManager = new PlatsManager($db);
                                                                     <p>Etes vous sur de vouloir supprimer le plat numero <?=$num;?> ?</p>
                                                                   </div>
                                                                   <div class="modal-footer">
-                                                                    <a href="http://localhost/restaurantPOO/deleteplat.php?id="<?=$num;?>'><button type="button" class="btn btn-default">Supprimer</button></a>
+                                                                    <a href="http://localhost/restaurantPOO/deleteplat.php?id=<?=$num;?>"><button type="button" class="btn btn-default">Supprimer</button></a>
 
                                                                   </div>
                                                                 </div>
                                                               <!--modal-dialog-->
                                                               </div>
-                                                            <!--modal fade-->
+                                                            <!--modal modal-->
                                             </div>
-                                            <!-- fermeture de la boucle foreach-->
-                                            <?php ;} ?>
+                                            <!-- fermeture de la div foreach-->
+                                            <?php
+                                            //fin du foreach sur les plats
+                                            ;}
+                                            //fin du test de session admin
+                                            }
+                                            else
+                                            {
+                                              header('Location: http://localhost/restaurantPOO/login.php');
+                                            }
+                                             ?>
                                         </tbody>
                                     </table>
                             </div>
