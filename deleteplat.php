@@ -20,8 +20,13 @@ $idDuPlatAeffacer = $_GET['id'];
 
 //on recupere le plat a effacer
 $platAeffacer = $platsManager->getPLat($idDuPlatAeffacer);
+
 //on efface le plat avec la methode delete qui prend un param:l'objet plat a effacer
 $resp = $platsManager->delete($platAeffacer);
+
+// il faudra rajouter une methode de suppressionPlat - avec une suppression de la ligne dans idPlat,idMenu de Composer
+//...
+
 
 if($resp)
 {

@@ -58,7 +58,9 @@ class PlatsManager {
 
      public function delete(Plat $plat)
      {
-       // Exécute une requête de type DELETE.
+      // Exécute une requête de type DELETE  d'abord sur la table de relaion Composer Plat_Menu
+      $d = $this->_db->exec('DELETE FROM Composer WHERE IDPLAT = '.$plat->getId());
+      // Exécute une requête de type DELETE  sur la table Plat
       $q = $this->_db->exec('DELETE FROM Plats WHERE ID = '.$plat->getId());
 
       return $q;
