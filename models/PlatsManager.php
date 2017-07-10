@@ -131,6 +131,11 @@ class PlatsManager {
 
        // Exécution de la requête.
        $q->execute();
+
+       // Exécution de la requête.
+       $reponse = $q->execute();
+
+       return $reponse;
      }
 
      public function updateSansImage(Plat $plat)
@@ -143,7 +148,9 @@ class PlatsManager {
        $q->bindValue(':prix',$plat->getPrix());
 
        // Exécution de la requête.
-       $q->execute();
+       $reponse = $q->execute();
+
+       return $reponse;
      }
 
      public function getPLat($id){

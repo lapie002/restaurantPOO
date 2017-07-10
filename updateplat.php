@@ -45,11 +45,20 @@ if (isset($_POST['updatePlatId']))
     }
 
     // On crée un nouveau plat.
-    $plat = new Plat(['id' => $platIdToUpdate,'nom' => $_POST['nom'], 'prix' => $_POST['prix'], 'image' => $fileNAME]); // On
-    //ON META JOUR LE PLAT
-    $platsManager->update($plat);
+    $plat = new Plat(['id' => $platIdToUpdate,'nom' => $_POST['nom'], 'prix' => $_POST['prix'], 'image' => $fileNAME]);
+
+    //ON META JOUR LE PLAT et on met dans une vairable pour afficher un message de succes d insertion
+    $messageUpdate = $platsManager->update($plat);
     //l faudrait mettre a jour les prix des menu contenant ce plat apres insertion
     //...
+
+    //gestion du message success | error pour insertion du plat dans la bdd - pour update avec image
+    if($messageUpdate){
+         $message = "<div class='alert alert-success'><strong>Bravo!</strong> le plat a bien été mis à jour en base de données.</div>";
+    }
+    else{
+         $message = "<div class='alert alert-danger'><strong>Erreur!</strong> le plat n'a pas pu être mis à jour en base de données.</div>";
+    }
   }
   else
   {
@@ -57,9 +66,18 @@ if (isset($_POST['updatePlatId']))
     // On crée un nouveau plat.
     $platWithoutUpdateImage = new Plat(['id' => $platIdToUpdate,'nom' => $_POST['nom'], 'prix' => $_POST['prix']]);
     //ON META JOUR LE PLAT
-    $platsManager->updateSansImage($platWithoutUpdateImage);
+    $messageUpdate = $platsManager->updateSansImage($platWithoutUpdateImage);
+
     //l faudrait mettre a jour les prix des menu contenant ce plat apres insertion
     //...
+
+    //gestion du message success | error pour insertion du plat dans la bdd - pour update sans image
+    if($messageUpdate){
+         $message = "<div class='alert alert-success'><strong>Bravo !</strong> le plat a bien été mis à jour en base de données.</div>";
+    }
+    else{
+         $message = "<div class='alert alert-danger'><strong>Erreur !</strong> le plat n'a pas pu être mis à jour en base de données.</div>";
+    }
   }
 }
 
@@ -291,6 +309,13 @@ if(isset($_SESSION['login'])){
                                         Formulaire de mise à jour du Plat <?= $monObjetPlat->getId(); ?>
                                     </h1>
                                 </div>
+                                  <div class="col-lg-12">
+                                <?php
+                                    //on affiche le message de suuccess | error d insertion
+                                    if(isset($message)){echo $message;}
+                                ?>
+
+                                  </div>
                             </div>
                             <!-- /.row    -->
 
