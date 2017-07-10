@@ -25,7 +25,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // On émet une aler
 
 $platsManager = new PlatsManager($db);
 
-if (isset($_POST['creer']))
+if(isset($_POST['creer']))
 {
   // insertion de l image en base de donnees.
   // On peut valider le fichier et le stocker définitivement
@@ -48,18 +48,26 @@ if (isset($_POST['creer']))
     }
   }
 
-  // On crée un nouveau plat.
-  $plat = new Plat(['nom' => $_POST['nom'], 'prix' => $_POST['prix'], 'image' => $fileNAME]);
 
+// On crée un nouveau plat.
+$plat = new Plat(['nom' => $_POST['nom'], 'prix' => $_POST['prix'], 'image' => $fileNAME]);
 
   if ($platsManager->exists($plat->getNom()))
   {
-    $message = 'Le nom du plat est déjà pris.';
+    $message = "<div class='alert alert-danger fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Erreur !</strong> ce plat existe déjà en base de données.</div>";
     unset($plat);
   }
   else
   {
-    $platsManager->add($plat);
+    $messageInsertOk =$platsManager->add($plat);
+
+    //gestion du message success | error pour insertion du plat dans la bdd - pour update avec image
+    if($messageInsertOk){
+         $message = "<div class='alert alert-success fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Bravo !</strong> le plat a bien été ajouté en base de données.</div>";
+    }
+    else{
+         $message = "<div class='alert alert-danger fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Erreur !</strong> le plat n'a pas pu être ajouté en base de données.</div>";
+    }
   }
 }
 
@@ -288,6 +296,12 @@ if(isset($_SESSION['login'])){
                                     <h1 class="page-header">
                                         Formulaire d'ajout d'un Plat
                                     </h1>
+                                </div>
+                                <div class="col-lg-12">
+                                <?php
+                                  //on affiche le message de suuccess | error d insertion
+                                  if(isset($message)){echo $message;}
+                                ?>
                                 </div>
                             </div>
                             <!-- /.row    -->

@@ -54,10 +54,10 @@ if (isset($_POST['updatePlatId']))
 
     //gestion du message success | error pour insertion du plat dans la bdd - pour update avec image
     if($messageUpdate){
-         $message = "<div class='alert alert-success'><strong>Bravo!</strong> le plat a bien été mis à jour en base de données.</div>";
+         $message = "<div class='alert alert-success fade in col-lg-6'><strong>Bravo!</strong> le plat a bien été mis à jour en base de données.</div>";
     }
     else{
-         $message = "<div class='alert alert-danger'><strong>Erreur!</strong> le plat n'a pas pu être mis à jour en base de données.</div>";
+         $message = "<div class='alert alert-danger fade in col-lg-6'><strong>Erreur!</strong> le plat n'a pas pu être mis à jour en base de données.</div>";
     }
   }
   else
@@ -73,10 +73,10 @@ if (isset($_POST['updatePlatId']))
 
     //gestion du message success | error pour insertion du plat dans la bdd - pour update sans image
     if($messageUpdate){
-         $message = "<div class='alert alert-success'><strong>Bravo !</strong> le plat a bien été mis à jour en base de données.</div>";
+         $message = "<div class='alert alert-success fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Bravo !</strong> le plat a bien été mis à jour en base de données.</div>";
     }
     else{
-         $message = "<div class='alert alert-danger'><strong>Erreur !</strong> le plat n'a pas pu être mis à jour en base de données.</div>";
+         $message = "<div class='alert alert-danger fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Erreur !</strong> le plat n'a pas pu être mis à jour en base de données.</div>";
     }
   }
 }

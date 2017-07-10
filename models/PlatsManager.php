@@ -30,7 +30,8 @@ class PlatsManager {
       // $q->bindValue(':prix',0.0);
       // $q->bindValue(':image','hello.jpg');
 
-      $q->execute();
+      // Exécution de la requête.
+      $reponse = $q->execute();
 
      // $q = bindValue(':degats',$perso->_degats,PDO::PARAM_INT);
      //  $q = bindValue(':degats',0);
@@ -42,6 +43,8 @@ class PlatsManager {
          'nom'    => $plat->getNom(),
          'prix'   => $plat->getPrix()]
        );
+
+       return $reponse;
 
      }
 
