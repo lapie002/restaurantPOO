@@ -21,7 +21,16 @@ $idDuPlatAeffacer = $_GET['id'];
 //on recupere le plat a effacer
 $platAeffacer = $platsManager->getPLat($idDuPlatAeffacer);
 //on efface le plat avec la methode delete qui prend un param:l'objet plat a effacer
-$platsManager->delete($platAeffacer);
+$resp = $platsManager->delete($platAeffacer);
+
+if($resp)
+{
+  $_SESSION['suppressionPlat'] = true;
+}
+else
+{
+  $_SESSION['suppressionPlat'] = false;
+}
 
 header('Location: http://localhost/restaurantPOO/showplats.php');
 

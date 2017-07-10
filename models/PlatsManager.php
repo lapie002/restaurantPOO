@@ -54,13 +54,14 @@ class PlatsManager {
        $q = $this->_db->query('SELECT count(*) FROM Plats')->fetchColumn();
 
        return $q;
-
      }
 
      public function delete(Plat $plat)
      {
        // Exécute une requête de type DELETE.
-      $this->_db->exec('DELETE FROM Plats WHERE ID = '.$plat->getId());
+      $q = $this->_db->exec('DELETE FROM Plats WHERE ID = '.$plat->getId());
+
+      return $q;
      }
 
      public function exists($info)
