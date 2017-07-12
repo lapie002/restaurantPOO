@@ -25,6 +25,8 @@ $menusManager = new MenusManager($db);
 //acces au PlatsManager
 $platsManager = new PlatsManager($db);
 
+
+
 if(isset($_POST['creer']))
 {
   // insertion de l image en base de donnees.
@@ -48,25 +50,29 @@ if(isset($_POST['creer']))
     }
   }
 
-  //les variable recuperer apres l envoie du formulaire:
+  //les variable recuperer apres l envoie du formulaire : Objet Menu
   $nom = $_POST['nom'];
   $image = $fileNAME;
-  // on met le prix a zero avant de faire un update du rpix du menu en fonction des plats choisi
-  $prix = 0.00;
+  $prix = $_POST['prix'];
 
-  //il y aura plusieurs plats *** A voir comment onfait ***
-  $idplat = $_POST['idplat'];
-  $idplat = (int) $idplat;
-  //#yourCode Here...
-  //...
+  //le tableau contenant les id des plats selectionnes
+  $idplat = $_POST['tabIdPlats'];
+  $lesPlatsDuMenu = [];
+
+  if(isset($_POST['tabIdPlats']) && !empty($_POST['tabIdPlats']))
+  {
+      	$Col_Array = $_POST['tabIdPlats'];
+
+        foreach($Col_Array as $selectIdPlat)
+        {
+		        //avec l'id du plat en question on stock un Objet Plat dans le tableau : $lesPlatsDuMenu[]
+            $lesPlatsDuMenu[] = $platsManager->getPLat($selectIdPlat);
+	      }
+  }
 
 
-  // On crée un nouveau menu.
+  // On crée un nouveau menu avec les variable recuperer eN POST
   $menu = new Menu(['nom' => $nom, 'prix' => $prix, 'image' => $image]);
-
-  // On crée des plats correspondant a leur id dans le formulaire
-  // # your code here ...
-
 
   if($menusManager->exists($menu->getNom()))
   {
@@ -75,28 +81,30 @@ if(isset($_POST['creer']))
   }
   else
   {
-
-    //****************************** le dur du travail *****************************************//
     //on ajoute le menu
-    $menusManager->add($menu);
+    $messageInsertOk = $menusManager->add($menu);
 
     //appel d un fonction pour recup le menu inserer en base :
     // $menuEnBase = getMenu($menu->getNom());
     $menuEnBase = $menusManager->getMenu($nom);
 
-    // associationPlatMenu(int $idplat,$idmenu)
-    $menusManager->associationPlatMenu($idplat,$menuEnBase->getId());
+
+    // faireCorrespondrePlatsMenu(int id_menu,$tabObjetPlats[])
+    $menusManager->faireCorrespondrePlatsMenu($menuEnBase->getId(),$lesPlatsDuMenu);
 
     //met a jour le prix du menu :
-    $menusManager->updatePrixMenu($menuEnBase->getId());
+    // $menusManager->updatePrixMenu($menuEnBase->getId());
 
 
 
     //gestion du message success | error pour insertion du plat dans la bdd - pour update avec image
-    if($messageInsertOk){
+
+    if($messageInsertOk==true)
+    {
          $message = "<div class='alert alert-success fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Bravo !</strong> le menu a bien été ajouté en base de données.</div>";
     }
-    else{
+    else
+    {
          $message = "<div class='alert alert-danger fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Erreur !</strong> le menu n'a pas pu être ajouté en base de données.</div>";
     }
   }
@@ -365,17 +373,23 @@ if(isset($_SESSION['login'])){
 
                                         <div class="form-group">
                                           <label class="control-label">les Plats</label></br>
-                                          <select id="tabidplats" name="tabidplats[]" multiple="multiple">
-                                              <option value="cheese">    Cheese     </option>
-                                              <option value="tomatoes">  Tomatoes   </option>
-                                              <option value="mozarella"> Mozzarella </option>
-                                              <option value="mushrooms"> Mushrooms  </option>
-                                              <option value="pepperoni"> Pepperoni  </option>
-                                              <option value="onions">    Onions     </option>
+                                          <select id="tabIdPlats" name="tabIdPlats[]" multiple="multiple">
+                                              <?php
+                                                $objPlats = $platsManager->selectAllPlats();
+                                                // var_dump($objPlats);
+                                                if(empty($objPlats))
+                                                {
+                                                  echo 'Pas de Plats Erreur !';
+                                                }
+                                                else{
+                                                  foreach($objPlats as $objPlat) {
+                                                    echo '<option value=' , $objPlat->getId() , '>' , $objPlat->getNom() ,'</option>';
+                                                  }
+                                                }
+                                              ?>
                                           </select>
                                         </div>
                                         <button type="submit" class="btn btn-default" name="creer">Envoyer</button>
-                                        <!-- <input type="submit" value="Mise à jour plat" name="updatePlatId" /> -->
                                     </form>
                                 </div>
                             </div>
@@ -396,7 +410,7 @@ if(isset($_SESSION['login'])){
 <!-- Initialize the plugin: -->
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#tabidplats').multiselect();
+        $('#tabIdPlats').multiselect();
     });
 </script>
 

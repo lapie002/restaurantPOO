@@ -30,7 +30,7 @@ class MenusManager {
    // $q->bindValue(':prix',0.0);
    // $q->bindValue(':image','hello.jpg');
 
-   $q->execute();
+   $reponse = $q->execute();
 
   // $q = bindValue(':degats',$perso->_degats,PDO::PARAM_INT);
   //  $q = bindValue(':degats',0);
@@ -42,6 +42,8 @@ class MenusManager {
       'nom'    => $menu->getNom(),
       'prix'   => $menu->getPrix()]
     );
+
+    return $reponse;
 
   }
 
@@ -188,7 +190,19 @@ class MenusManager {
       }
 
       return $menus;
+   }
 
+   public function faireCorrespondrePlatsMenu($idmenu,$tabPlats)
+   {
+     foreach($tabPlats as $plats)
+     {
+       $q = $this->_db->prepare('INSERT INTO Composer(IDPLAT,IDMENU) VALUES(:id_plat,:id_menu)');
+
+       $q->bindValue(':id_plat',$plats->getId());
+       $q->bindValue(':id_menu',$idmenu);
+
+       $q->execute();
+     }
    }
 
 }

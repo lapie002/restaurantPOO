@@ -309,7 +309,7 @@ if(isset($_SESSION['login'])){
 
                                                 ?>
                                             <tr>
-                                                        <td><img class="media-object" src="http://placehold.it/50x50" alt=""></td>
+                                                        <td><a href="http://localhost/restaurantPOO/showplatsmenu.php?listerPlatsMenuId=<?=$num;?>"><img class="media-object" src="http://placehold.it/50x50" alt=""></a></td>
                                                         <td><?=$menu->getNom();?></td>
                                                         <td><?=$menu->getPrix();?></td>
                                                         <td><a href="http://localhost/restaurantPOO/updatemenu.php?updateMenuId=<?=$num;?>"><button type="button" class="btn btn-sm btn-warning"><i class="fa fa-minus" aria-hidden="true"></i></button></a></td>
