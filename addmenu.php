@@ -36,14 +36,11 @@ if (isset($_POST['creer']))
   // $prix = $_POST['prix'];
   $prix = 0.00;
 
+  //il y aura plusieurs plats
   $idplat = $_POST['idplat'];
   $idplat = (int) $idplat;
 
-  //TEST
-  // echo "nom du menu : " . $nom . " prix : " . $prix . " idplat : " . $idplat ."\n";
 
-  // On crée un nouveau menu.
-  // $menu = new Menu(['nom' => $_POST['nom'], 'prix' => $_POST['prix']]);
   $menu = new Menu(['nom' => $_POST['nom'], 'prix' => $prix]);
 
 
