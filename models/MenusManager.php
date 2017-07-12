@@ -20,10 +20,11 @@ class MenusManager {
     // Assignation des valeurs pour le Menu.
     // Exécution de la requête.
 
-   $q = $this->_db->prepare('INSERT INTO Menus(NOM,PRIX) VALUES(:nom,:prix)');
+   $q = $this->_db->prepare('INSERT INTO Menus(NOM,PRIX,IMAGE) VALUES(:nom,:prix,:image)');
 
    $q->bindValue(':nom',$menu->getNom());
    $q->bindValue(':prix',$menu->getPrix());
+   $q->bindValue(':image',$menu->getImage());
 
    //$q->bindValue(':nom',$menu->getNom(),PDO::PARAM_STR);
    // $q->bindValue(':prix',0.0);
@@ -94,7 +95,7 @@ class MenusManager {
      // Si le paramètre est un entier, on veut récupérer le menu avec son identifiant.
        // Exécute une requête de type SELECT avec une clause WHERE, et retourne un objet Menu.
        if(is_int($info)){
-         $q = $this->_db->query('SELECT ID, NOM, PRIX FROM Menus WHERE ID = '.$info);
+         $q = $this->_db->query('SELECT ID, NOM, PRIX, IMAGE FROM Menus WHERE ID = '.$info);
 
          $donnees = $q->fetch(PDO::FETCH_ASSOC);
 
@@ -103,7 +104,7 @@ class MenusManager {
      // Sinon, on veut récupérer le personnage avec son nom.
      // Exécute une requête de type SELECT avec une clause WHERE, et retourne un objet Personnage.
      else {
-         $q = $this->_db->prepare('SELECT ID, NOM, PRIX FROM Menus WHERE NOM = :nom');
+         $q = $this->_db->prepare('SELECT ID, NOM, PRIX, IMAGE FROM Menus WHERE NOM = :nom');
          $q->execute([':nom' => $info]);
 
          $donnees = $q->fetch(PDO::FETCH_ASSOC);
@@ -134,7 +135,7 @@ class MenusManager {
     //  $res = $q->fetchColumn();
 
     // $res = $q->fetch(PDO::FETCH_NUM);
-      $res = $q->fetch();
+    $res = $q->fetch();
 
     // $res = $q;
 
@@ -170,6 +171,23 @@ class MenusManager {
      // Exécution de la requête.
      $r->execute();
 
+   }
+
+   public function selectAllMenus()
+   {
+      $menus = [];
+
+      $q = $this->_db->query('SELECT ID, NOM, PRIX, IMAGE FROM Menus');
+
+      while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+      {
+        // var_dump($donnees);
+        $menus[] = new Menu($donnees);
+
+        // $plats[] = getPLat($donnees['IDPLAT']);
+      }
+
+      return $menus;
 
    }
 

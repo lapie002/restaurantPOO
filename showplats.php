@@ -102,7 +102,7 @@ if(isset($_SESSION['login'])){
                       <a href="http://localhost/restaurantPOO/addplat.php">Ajouter un Plat</a>
                   </li>
                   <li>
-                      <a href="http://localhost/restaurantPOO/showplats.php">Lister les plats</a>
+                      <a href="http://localhost/restaurantPOO/showplats.php">Lister les Plats</a>
                   </li>
               </ul>
           </li>

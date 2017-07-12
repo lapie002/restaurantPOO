@@ -35,6 +35,7 @@ if (isset($_POST['creer']))
   $nom = $_POST['nom'];
   // $prix = $_POST['prix'];
   $prix = 0.00;
+
   $idplat = $_POST['idplat'];
   $idplat = (int) $idplat;
 
@@ -92,7 +93,7 @@ if (isset($_POST['creer']))
 
         // var_dump($objPlats);
 
-        if (empty($objPlats))
+        if(empty($objPlats))
         {
           echo 'Pas de Plats Erreur !';
         }

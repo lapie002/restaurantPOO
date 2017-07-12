@@ -6,6 +6,7 @@ class Menu
   private $_id;
   private $_nom;
   private $_prix;
+  private $_image;
 
   /* fonction hydratation des donnees provenant de la BDD */
   public function hydrate(array $donnees)
@@ -79,6 +80,16 @@ class Menu
 
   }
 
+  //Set image du menu
+  public function setImage($image)
+  {
+   # on affecte le nom a l'objet si $nom est une chaine de caracteres
+   if(is_string($image))
+   {
+     $this->_image = $image;
+   }
+  }
+
 
    /* GETTERS */
    public function getId()
@@ -97,5 +108,11 @@ class Menu
    {
     # retourne le prix de l'objet en question
     return $this->_prix;
+   }
+
+   public function getImage()
+   {
+    # retourne l'image de l'objet en question
+    return $this->_image;
    }
 }
