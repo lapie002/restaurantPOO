@@ -121,11 +121,9 @@ if(isset($_SESSION['login'])){
     <title>SB Admin - Bootstrap Admin Template</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="./css/bootstrap.min.css" type="text/css"/>
     <!-- Custom CSS -->
     <link href="./css/sb-admin.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="./font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -135,6 +133,15 @@ if(isset($_SESSION['login'])){
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+
+    <!-- Include the plugin's CSS and JS: -->
+    <script type="text/javascript" src="./js/bootstrap-multiselect.js"></script>
+    <link rel="stylesheet" href="./css/bootstrap-multiselect.css" type="text/css"/>
 
 </head>
 
@@ -306,14 +313,13 @@ if(isset($_SESSION['login'])){
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="http://localhost/restaurantPOO/showplats.php?deconnexion=true"><i class="fa fa-fw fa-power-off"></i>Log Out</a>
+                            <a href="http://localhost/restaurantPOO/showmenus.php?deconnexion=true"><i class="fa fa-fw fa-power-off"></i>Log Out</a>
                         </li>
                     </ul>
                 </li>
             </ul>
 <!-- /.navbar-collapse -->
 </nav>
-
 
     <div id="wrapper">
 
@@ -325,7 +331,7 @@ if(isset($_SESSION['login'])){
                             <div class="row">
                                 <div class="col-lg-12">
                                     <h1 class="page-header">
-                                        Formulaire d'ajout d'un Plat
+                                        Formulaire d'ajout d'un Menu
                                     </h1>
                                 </div>
                                 <div class="col-lg-12">
@@ -356,6 +362,18 @@ if(isset($_SESSION['login'])){
                                             <label class="control-label">l'image</label>
                                             <input type="file" class="filestyle" name="image" id="fileToUpload" data-buttonText="Choisir">
                                         </div>
+
+                                        <div class="form-group">
+                                          <label class="control-label">les Plats</label></br>
+                                          <select id="tabidplats" name="tabidplats[]" multiple="multiple">
+                                              <option value="cheese">    Cheese     </option>
+                                              <option value="tomatoes">  Tomatoes   </option>
+                                              <option value="mozarella"> Mozzarella </option>
+                                              <option value="mushrooms"> Mushrooms  </option>
+                                              <option value="pepperoni"> Pepperoni  </option>
+                                              <option value="onions">    Onions     </option>
+                                          </select>
+                                        </div>
                                         <button type="submit" class="btn btn-default" name="creer">Envoyer</button>
                                         <!-- <input type="submit" value="Mise à jour plat" name="updatePlatId" /> -->
                                     </form>
@@ -373,12 +391,18 @@ if(isset($_SESSION['login'])){
     <!-- /#wrapper -->
 </body>
 
+<!-- Initialize the js boostrap plugin: -->
+<script src="./js/bootstrap-multiselect.js"></script>
+<!-- Initialize the plugin: -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tabidplats').multiselect();
+    });
+</script>
 
-<!-- jQuery -->
-<script src="./js/jquery.js"></script>
 
-<!-- Bootstrap Core JavaScript -->
-<script src="./js/bootstrap.min.js"></script>
+
+
 
 </html>
 <?php
