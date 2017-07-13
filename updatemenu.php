@@ -29,7 +29,7 @@ $platsManager = new PlatsManager($db);
 $updateMenuId = $_GET['updateMenuId'];
 //deplace le menu ailleur pour le pb de rafraichissement
 $updateMenuId = (int) $updateMenuId;
-$mymenu = $menusManager->getMenu($updateMenuId);
+$menu = $menusManager->getMenu($updateMenuId);
 
 
 if(isset($_POST['updateMenuId']))
@@ -376,7 +376,7 @@ if(isset($_SESSION['login'])){
                             <div class="row">
                                 <div class="col-lg-12">
                                     <h1 class="page-header">
-                                        Formulaire de mise d'un Menu
+                                        Formulaire de mise à jour d'un Menu
                                     </h1>
                                 </div>
                                 <div class="col-lg-12">
@@ -395,12 +395,12 @@ if(isset($_SESSION['login'])){
                                     <form role="form" action="" method="post" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label>le nom</label>
-                                            <input class="form-control" type="text" name="nom" id="nom" value="<?=$mymenu->getNom();?>" />
+                                            <input class="form-control" type="text" name="nom" id="nom" value="<?=$menu->getNom();?>" />
                                         </div>
 
                                         <div class="form-group">
                                             <label>le prix</label>
-                                            <input class="form-control" type="text" name="prix" id="prix" value="<?=$mymenu->getPrix();?>" />
+                                            <input class="form-control" type="text" name="prix" id="prix" value="<?=$menu->getPrix();?>" />
                                         </div>
 
                                         <div class="form-group">
