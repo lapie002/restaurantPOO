@@ -305,7 +305,10 @@ if(isset($_SESSION['login']))
 
                                             ?>
                                             <tr>
-                                                        <?php echo "<td><img class='media-object' src='uploads/" . $menu->getImage() . "' alt='' style='width:60px;height:60px;'></td>"; ?>
+                                                        <?php //echo "<td><img class='media-object' src='uploads/" . $menu->getImage() . "' alt='' style='width:60px;height:60px;'></td>"; ?>
+
+                                                        <?php echo "<td><a href='http://localhost/restaurantPOO/updatemenu.php?updateMenuId=".$menu->getId()."'><img class='media-object' src='uploads/" . $menu->getImage() . "' alt='' style='width:60px;height:60px;'></a></td>"; ?>
+
                                                         <td><?=$menu->getNom();?></td>
 
                                                         <?php
