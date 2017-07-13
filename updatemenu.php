@@ -1,87 +1,115 @@
 <?php
+// On enregistre notre autoload.
 function chargerClasse($classname)
 {
   require 'models/'.$classname.'.php';
 }
+
 spl_autoload_register('chargerClasse');
+
 // On appelle session_start() APRÈS avoir enregistré l'autoload.
 session_start();
 
 if (isset($_GET['deconnexion']))
 {
   session_destroy();
-  header('Location: http://localhost/restaurantPOO/login.php');
+  header('Location: .');
   exit();
 }
 
 $db = Db::getInstance();
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // On émet une alerte à chaque fois qu'une requête a échoué.
+
+//acces au MenusManager
+$menusManager = new MenusManager($db);
+//acces au PlatsManager
 $platsManager = new PlatsManager($db);
+
 // on recupere l id du plat a mettre a jour
-$platIdToUpdate = $_GET['updatePlatId'];
+$updateMenuId = $_GET['updateMenuId'];
 
 
-if(isset($_POST['updatePlatId']))
+if(isset($_POST['updateMenuId']))
 {
   // insertion de l image en base de donnees.
   // On peut valider le fichier et le stocker définitivement
   $fileTMP    = $_FILES['image']['tmp_name'];
   $fileNAME = $_FILES['image']['name'];
   $fileTYPE = $_FILES['image']['type'];
-
   // tableau des extensions
   $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png', 'pdf');
-
 
   if(isset($_FILES['image']) && $_FILES['image']['error'] == 0)
   {
     // Testons si l'extension est autorisée
     $infosfichier = pathinfo($_FILES['image']['name']);
     $extension_upload = $infosfichier['extension'];
+
     if (in_array($extension_upload, $extensions_autorisees))
     {
       //echo $file;
       move_uploaded_file($fileTMP, 'uploads/' . $fileNAME);
     }
 
-    // On crée un nouveau plat.
-    $plat = new Plat(['id' => $platIdToUpdate,'nom' => $_POST['nom'], 'prix' => $_POST['prix'], 'image' => $fileNAME]);
+    // #On update le menu avec image
+    //les variable recuperer apres l envoie du formulaire : Objet Menu
+    $nom = $_POST['nom'];
+    $image = $fileNAME;
+    $prix = $_POST['prix'];
 
-    //ON META JOUR LE PLAT et on met dans une vairable pour afficher un message de succes d insertion
-    $messageUpdate = $platsManager->update($plat);
-    //l faudrait mettre a jour les prix des menu contenant ce plat apres insertion
+    //le tableau contenant les id des plats selectionnes
+    // faire un methode update de Composer avec id du menu en question
+    //************************Gros du travail**********************************//
+    //le tableau contenant les id des plats selectionnes
+    $idplat = $_POST['tabIdPlats'];
+    $lesPlatsDuMenu = [];
+
+    if(isset($_POST['tabIdPlats']) && !empty($_POST['tabIdPlats']))
+    {
+          $Col_Array = $_POST['tabIdPlats'];
+
+          foreach($Col_Array as $selectIdPlat)
+          {
+              //avec l'id du plat en question on stock un Objet Plat dans le tableau : $lesPlatsDuMenu[]
+              $lesPlatsDuMenu[] = $platsManager->getPLat($selectIdPlat);
+          }
+    }
+    //************************Gros du travail**********************************//
+
+    // On crée un nouveau menu avec les variable recuperer eN POST
+    $menu = new Menu(['id' => $updateMenuId,'nom' => $nom, 'prix' => $prix, 'image' => $image]);
+
+    //on met a jour le menu
+    $messageInsertOk = $menusManager->update($menu);
+
+    //On supprime les relation plats-menu dans Composer
+    $menusManager->suppressionCorrespondancePlatsMenu($updateMenuId);
+
+    //On injecte les nouvelles dependance de relation plats-menu dans Composer
+    $menusManager->faireCorrespondrePlatsMenu($updateMenuId,$lesPlatsDuMenu);
+
+
+    if($messageInsertOk==true)
+    {
+      $message = "<div class='alert alert-success fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Bravo !</strong> le menu a bien été mis à jour en base de données.</div>";
+    }
+    else
+    {
+      $message = "<div class='alert alert-danger fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Erreur !</strong> le menu n'a pas pu être mis à jour en base de données.</div>";
+    }
+
+  }
+  else {
+    # code... Update sans image
     //...
 
-    //gestion du message success | error pour insertion du plat dans la bdd - pour update avec image
-    if($messageUpdate){
-         $message = "<div class='alert alert-success fade in col-lg-6'><strong>Bravo!</strong> le plat a bien été mis à jour en base de données.</div>";
-    }
-    else{
-         $message = "<div class='alert alert-danger fade in col-lg-6'><strong>Erreur!</strong> le plat n'a pas pu être mis à jour en base de données.</div>";
-    }
-  }
-  else
-  {
-    # code...
-    // On crée un nouveau plat.
-    $platWithoutUpdateImage = new Plat(['id' => $platIdToUpdate,'nom' => $_POST['nom'], 'prix' => $_POST['prix']]);
-    //ON META JOUR LE PLAT
-    $messageUpdate = $platsManager->updateSansImage($platWithoutUpdateImage);
 
-    //l faudrait mettre a jour les prix des menu contenant ce plat apres insertion
-    //...
 
-    //gestion du message success | error pour insertion du plat dans la bdd - pour update sans image
-    if($messageUpdate){
-         $message = "<div class='alert alert-success fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Bravo !</strong> le plat a bien été mis à jour en base de données.</div>";
-    }
-    else{
-         $message = "<div class='alert alert-danger fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Erreur !</strong> le plat n'a pas pu être mis à jour en base de données.</div>";
-    }
+
+
   }
+
 }
-
-$monObjetPlat = $platsManager->getPLat($platIdToUpdate);
 
 if(isset($_SESSION['login'])){
 
@@ -102,11 +130,9 @@ if(isset($_SESSION['login'])){
     <title>SB Admin - Bootstrap Admin Template</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="./css/bootstrap.min.css" type="text/css"/>
     <!-- Custom CSS -->
     <link href="./css/sb-admin.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="./font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -116,6 +142,15 @@ if(isset($_SESSION['login'])){
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+
+    <!-- Include the plugin's CSS and JS: -->
+    <script type="text/javascript" src="./js/bootstrap-multiselect.js"></script>
+    <link rel="stylesheet" href="./css/bootstrap-multiselect.css" type="text/css"/>
 
 </head>
 
@@ -287,14 +322,13 @@ if(isset($_SESSION['login'])){
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="http://localhost/restaurantPOO/showplats.php?deconnexion=true"><i class="fa fa-fw fa-power-off"></i>Log Out</a>
+                            <a href="http://localhost/restaurantPOO/showmenus.php?deconnexion=true"><i class="fa fa-fw fa-power-off"></i>Log Out</a>
                         </li>
                     </ul>
                 </li>
             </ul>
 <!-- /.navbar-collapse -->
 </nav>
-
 
     <div id="wrapper">
 
@@ -306,16 +340,15 @@ if(isset($_SESSION['login'])){
                             <div class="row">
                                 <div class="col-lg-12">
                                     <h1 class="page-header">
-                                        Formulaire de mise à jour du Plat <?= $monObjetPlat->getId(); ?>
+                                        Formulaire de mise d'un Menu
                                     </h1>
                                 </div>
-                                  <div class="col-lg-12">
+                                <div class="col-lg-12">
                                 <?php
-                                    //on affiche le message de suuccess | error d insertion
-                                    if(isset($message)){echo $message;}
+                                  //on affiche le message de suuccess | error d insertion
+                                  if(isset($message)){echo $message;}
                                 ?>
-
-                                  </div>
+                                </div>
                             </div>
                             <!-- /.row    -->
 
@@ -326,20 +359,38 @@ if(isset($_SESSION['login'])){
                                     <form role="form" action="" method="post" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label>le nom</label>
-                                            <input class="form-control" type="text" name="nom" id="nom" value="<?php echo $monObjetPlat->getNom(); ?>" />
+                                            <input class="form-control" type="text" name="nom" id="nom" />
                                         </div>
 
                                         <div class="form-group">
                                             <label>le prix</label>
-                                            <input class="form-control" type="text" name="prix" id="prix" value="<?php echo $monObjetPlat->getPrix(); ?>" />
+                                            <input class="form-control" type="text" name="prix" id="prix" />
                                         </div>
 
                                         <div class="form-group">
                                             <label class="control-label">l'image</label>
-                                            <input type="file" class="file" name="image" id="fileToUpload" data-buttonText="Choisir">
+                                            <input type="file" class="filestyle" name="image" id="fileToUpload" data-buttonText="Choisir">
                                         </div>
-                                        <button type="submit" class="btn btn-default" name="updatePlatId">Envoyer</button>
-                                        <!-- <input type="submit" value="Mise à jour plat" name="updatePlatId" /> -->
+
+                                        <div class="form-group">
+                                          <label class="control-label">les Plats</label></br>
+                                          <select id="tabIdPlats" name="tabIdPlats[]" multiple="multiple">
+                                              <?php
+                                                $objPlats = $platsManager->selectAllPlats();
+                                                // var_dump($objPlats);
+                                                if(empty($objPlats))
+                                                {
+                                                  echo 'Pas de Plats Erreur !';
+                                                }
+                                                else{
+                                                  foreach($objPlats as $objPlat) {
+                                                    echo '<option value=' , $objPlat->getId() , '>' , $objPlat->getNom() ,'</option>';
+                                                  }
+                                                }
+                                              ?>
+                                          </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-default" name="updateMenuId">Envoyer</button>
                                     </form>
                                 </div>
                             </div>
@@ -355,12 +406,18 @@ if(isset($_SESSION['login'])){
     <!-- /#wrapper -->
 </body>
 
+<!-- Initialize the js boostrap plugin: -->
+<script src="./js/bootstrap-multiselect.js"></script>
+<!-- Initialize the plugin: -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tabIdPlats').multiselect();
+    });
+</script>
 
-<!-- jQuery -->
-<script src="./js/jquery.js"></script>
 
-<!-- Bootstrap Core JavaScript -->
-<script src="./js/bootstrap.min.js"></script>
+
+
 
 </html>
 <?php

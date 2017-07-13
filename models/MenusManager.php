@@ -93,13 +93,17 @@ class MenusManager {
   public function update(Menu $menu)
   {
     // Prépare une requête de type UPDATE.
-    $q = $this->_db->prepare('UPDATE Menus SET NOM = :nom, PRIX = :prix WHERE IDMENU = :id');
+    $q = $this->_db->prepare('UPDATE Menus SET NOM = :nom, PRIX = :prix, IMAGE = :image WHERE IDMENU = :id');
     // Assignation des valeurs à la requête.
+    $q->bindValue(':id',$menu->getId());
     $q->bindValue(':nom',$menu->getNom());
     $q->bindValue(':prix',$menu->getPrix());
+    $q->bindValue(':image',$menu->getImage());
 
     // Exécution de la requête.
-    $q->execute();
+    $reponse = $q->execute();
+
+    return $reponse;
   }
 
 
@@ -229,5 +233,17 @@ class MenusManager {
 
      return $plats;
    }
+
+   public function suppressionCorrespondancePlatsMenu($idmenu)
+   {
+     // Exécute une requête de type DELETE  sur la table Plat.
+     $q = $this->_db->exec('DELETE FROM Composer WHERE IDMENU ='.$idmenu);
+
+     return $q;
+   }
+
+
+
+
 
 }
