@@ -93,12 +93,12 @@ class MenusManager {
   public function update(Menu $menu)
   {
     // Prépare une requête de type UPDATE.
-    $q = $this->_db->prepare('UPDATE Menus SET NOM = :nom, PRIX = :prix, IMAGE = :image WHERE IDMENU = :id');
+    $q = $this->_db->prepare('UPDATE Menus SET NOM = :nom, PRIX = :prix, IMAGE = :image WHERE ID = :id');
     // Assignation des valeurs à la requête.
-    $q->bindValue(':id',$menu->getId());
     $q->bindValue(':nom',$menu->getNom());
     $q->bindValue(':prix',$menu->getPrix());
     $q->bindValue(':image',$menu->getImage());
+    $q->bindValue(':id',$menu->getId());
 
     // Exécution de la requête.
     $reponse = $q->execute();

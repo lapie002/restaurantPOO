@@ -10,7 +10,7 @@ spl_autoload_register('chargerClasse');
 // On appelle session_start() APRÈS avoir enregistré l'autoload.
 session_start();
 
-if (isset($_GET['deconnexion']))
+if(isset($_GET['deconnexion']))
 {
   session_destroy();
   header('Location: .');
@@ -27,6 +27,9 @@ $platsManager = new PlatsManager($db);
 
 // on recupere l id du plat a mettre a jour
 $updateMenuId = $_GET['updateMenuId'];
+//deplace le menu ailleur pour le pb de rafraichissement
+$updateMenuId = (int) $updateMenuId;
+$mymenu = $menusManager->getMenu($updateMenuId);
 
 
 if(isset($_POST['updateMenuId']))
@@ -58,8 +61,51 @@ if(isset($_POST['updateMenuId']))
     $prix = $_POST['prix'];
 
     //le tableau contenant les id des plats selectionnes
-    // faire un methode update de Composer avec id du menu en question
+    $idplat = $_POST['tabIdPlats'];
+    $lesPlatsDuMenu = [];
+
+    if(isset($_POST['tabIdPlats']) && !empty($_POST['tabIdPlats']))
+    {
+          $Col_Array = $_POST['tabIdPlats'];
+
+          foreach($Col_Array as $selectIdPlat)
+          {
+              //avec l'id du plat en question on stock un Objet Plat dans le tableau : $lesPlatsDuMenu[]
+              $lesPlatsDuMenu[] = $platsManager->getPLat($selectIdPlat);
+          }
+    }
     //************************Gros du travail**********************************//
+
+    // On crée un nouveau menu avec les variable recuperer eN POST
+    $menu = new Menu(['id' => $updateMenuId,'nom' => $nom, 'prix' => $prix, 'image' => $image]);
+
+    //On supprime les relation plats-menu dans Composer
+    $menusManager->suppressionCorrespondancePlatsMenu($updateMenuId);
+
+    //on met a jour le menu
+    $messageInsertOk = $menusManager->update($menu);
+
+    //On injecte les nouvelles dependance de relation plats-menu dans Composer
+    $menusManager->faireCorrespondrePlatsMenu($updateMenuId,$lesPlatsDuMenu);
+
+    if($messageInsertOk)
+    {
+      $message = "<div class='alert alert-success fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Bravo !</strong> le menu a bien été mis à jour en base de données.</div>";
+    }
+    else
+    {
+      $message = "<div class='alert alert-danger fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Erreur !</strong> le menu n'a pas pu être mis à jour en base de données.</div>";
+    }
+
+  }
+  else{
+    # code... Update sans image
+    // #On update le menu avec image
+    //les variable recuperer apres l envoie du formulaire : Objet Menu
+    $nom = $_POST['nom'];
+    $image = $fileNAME;
+    $prix = $_POST['prix'];
+
     //le tableau contenant les id des plats selectionnes
     $idplat = $_POST['tabIdPlats'];
     $lesPlatsDuMenu = [];
@@ -79,17 +125,16 @@ if(isset($_POST['updateMenuId']))
     // On crée un nouveau menu avec les variable recuperer eN POST
     $menu = new Menu(['id' => $updateMenuId,'nom' => $nom, 'prix' => $prix, 'image' => $image]);
 
-    //on met a jour le menu
-    $messageInsertOk = $menusManager->update($menu);
-
     //On supprime les relation plats-menu dans Composer
     $menusManager->suppressionCorrespondancePlatsMenu($updateMenuId);
+
+    //on met a jour le menu
+    $messageInsertOk = $menusManager->update($menu);
 
     //On injecte les nouvelles dependance de relation plats-menu dans Composer
     $menusManager->faireCorrespondrePlatsMenu($updateMenuId,$lesPlatsDuMenu);
 
-
-    if($messageInsertOk==true)
+    if($messageInsertOk)
     {
       $message = "<div class='alert alert-success fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Bravo !</strong> le menu a bien été mis à jour en base de données.</div>";
     }
@@ -97,15 +142,6 @@ if(isset($_POST['updateMenuId']))
     {
       $message = "<div class='alert alert-danger fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Erreur !</strong> le menu n'a pas pu être mis à jour en base de données.</div>";
     }
-
-  }
-  else {
-    # code... Update sans image
-    //...
-
-
-
-
 
   }
 
@@ -359,12 +395,12 @@ if(isset($_SESSION['login'])){
                                     <form role="form" action="" method="post" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label>le nom</label>
-                                            <input class="form-control" type="text" name="nom" id="nom" />
+                                            <input class="form-control" type="text" name="nom" id="nom" value="<?=$mymenu->getNom();?>" />
                                         </div>
 
                                         <div class="form-group">
                                             <label>le prix</label>
-                                            <input class="form-control" type="text" name="prix" id="prix" />
+                                            <input class="form-control" type="text" name="prix" id="prix" value="<?=$mymenu->getPrix();?>" />
                                         </div>
 
                                         <div class="form-group">
@@ -414,9 +450,6 @@ if(isset($_SESSION['login'])){
         $('#tabIdPlats').multiselect();
     });
 </script>
-
-
-
 
 
 </html>
