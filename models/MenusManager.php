@@ -56,6 +56,17 @@ class MenusManager {
 
   }
 
+  public function countPlat($idDuMenu)
+  {
+    // Exécute une requête COUNT() et retourne le nombre de résultats retourné.
+    $q = $this->_db->prepare('SELECT count(*) FROM Composer WHERE IDMENU=:id_menu');
+    $q->execute([':id_menu' => $idDuMenu]);
+
+    $q = $q->fetchColumn();
+
+    return $q;
+  }
+
   public function delete(Menu $menu)
   {
     // Exécute une requête de type DELETE.
@@ -151,7 +162,7 @@ class MenusManager {
 
     $newprix = $this->getPrixMenu($id);
 
-    var_dump($newprix['prix_total_menu']);
+    // var_dump($newprix['prix_total_menu']);
 
     $p = $newprix['prix_total_menu'];
     $p = (float) $p;
@@ -203,6 +214,20 @@ class MenusManager {
 
        $q->execute();
      }
+   }
+
+   public function selectAllPLatsMenus($idDuMenu)
+   {
+     $plats = [];
+
+     $q = $this->_db->query('SELECT ID, NOM, PRIX, IMAGE FROM Plats INNER JOIN Composer ON Plats.ID = Composer.IDPLAT WHERE IDMENU='.$idDuMenu);
+
+     while($donnees = $q->fetch(PDO::FETCH_ASSOC))
+     {
+       $plats[] = new Plat($donnees);
+     }
+
+     return $plats;
    }
 
 }
