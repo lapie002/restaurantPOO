@@ -103,7 +103,6 @@ if(isset($_POST['updateMenuId']))
     // #On update le menu avec image
     //les variable recuperer apres l envoie du formulaire : Objet Menu
     $nom = $_POST['nom'];
-    $image = $fileNAME;
     $prix = $_POST['prix'];
 
     //le tableau contenant les id des plats selectionnes
@@ -123,13 +122,13 @@ if(isset($_POST['updateMenuId']))
     //************************Gros du travail**********************************//
 
     // On crée un nouveau menu avec les variable recuperer eN POST
-    $menu = new Menu(['id' => $updateMenuId,'nom' => $nom, 'prix' => $prix, 'image' => $image]);
+    $menu = new Menu(['id' => $updateMenuId,'nom' => $nom, 'prix' => $prix]);
 
     //On supprime les relation plats-menu dans Composer
     $menusManager->suppressionCorrespondancePlatsMenu($updateMenuId);
 
     //on met a jour le menu
-    $messageInsertOk = $menusManager->update($menu);
+    $messageInsertOk = $menusManager->updateSansImage($menu);
 
     //On injecte les nouvelles dependance de relation plats-menu dans Composer
     $menusManager->faireCorrespondrePlatsMenu($updateMenuId,$lesPlatsDuMenu);

@@ -69,8 +69,13 @@ class MenusManager {
 
   public function delete(Menu $menu)
   {
-    // Exécute une requête de type DELETE.
-   $this->_db->exec('DELETE FROM Menus WHERE ID = '.$menu->getId());
+    // Exécute une requête de type DELETE  d'abord sur la table de relaion Composer Plat_Menu
+    $d = $this->_db->exec('DELETE FROM Composer WHERE IDMENU = '.$menu->getId());
+
+    // Exécute une requête de type DELETE sur la table Mneu.
+    $q = $this->_db->exec('DELETE FROM Menus WHERE ID = '.$menu->getId());
+
+    return $q;
   }
 
   public function exists($info)
@@ -99,6 +104,21 @@ class MenusManager {
     $q->bindValue(':prix',$menu->getPrix());
     $q->bindValue(':image',$menu->getImage());
     $q->bindValue(':id',$menu->getId());
+
+    // Exécution de la requête.
+    $reponse = $q->execute();
+
+    return $reponse;
+  }
+
+  public function updateSansImage(Menu $menu)
+  {
+    // Prépare une requête de type UPDATE.
+    $q = $this->_db->prepare('UPDATE Menus SET NOM = :nom, PRIX = :prix WHERE ID = :id');
+    // Assignation des valeurs à la requête.
+    $q->bindValue(':id',$menu->getId());
+    $q->bindValue(':nom',$menu->getNom());
+    $q->bindValue(':prix',$menu->getPrix());
 
     // Exécution de la requête.
     $reponse = $q->execute();

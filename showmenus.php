@@ -339,7 +339,7 @@ if(isset($_SESSION['login'])){
                                             <!-- fermeture de la div foreach-->
                                             <?php
                                             //fin du foreach sur les plats
-                                            ;}
+                                            }
                                              ?>
                                         </tbody>
                                     </table>
