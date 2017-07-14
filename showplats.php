@@ -312,10 +312,12 @@ if(isset($_SESSION['login'])){
                                             {
                                                 // num me sert pour la fenetre modale
                                                 $num = $plat->getId();
+                                                $img = $plat->getImage();
+
 
                                                 ?>
                                             <tr>
-                                                        <td><img class="media-object" src="http://placehold.it/50x50" alt=""></td>
+                                                        <td><a href="http://localhost/restaurantPOO/updateplat.php?updatePlatId=<?=$num;?>"><img class="media-object" src="uploads/<?=$img?>" alt="" style='width:80px;height:80px;'></a></td>
                                                         <td><?=$plat->getNom();?></td>
                                                         <td><?=$plat->getPrix();?></td>
                                                         <td><a href="http://localhost/restaurantPOO/updateplat.php?updatePlatId=<?=$plat->getId();?>"><button type="button" class="btn btn-sm btn-warning"><i class="fa fa-minus" aria-hidden="true"></i></button></a></td>

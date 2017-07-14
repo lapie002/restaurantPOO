@@ -308,10 +308,11 @@ if(isset($_SESSION['login'])){
                                             {
                                                 // num me sert pour la fenetre modale
                                                 $num = $menu->getId();
+                                                $img = $menu->getImage();
 
                                                 ?>
                                             <tr>
-                                                        <td><a href="http://localhost/restaurantPOO/showplatsmenu.php?listerPlatsMenuId=<?=$num;?>"><img class="media-object" src="http://placehold.it/50x50" alt=""></a></td>
+                                                        <td><a href="http://localhost/restaurantPOO/showplatsmenu.php?listerPlatsMenuId=<?=$num;?>"><img class="media-object" src="uploads/<?=$img?>" alt="" style='width:80px;height:80px;'></a></td>
                                                         <td><?=$menu->getNom();?></td>
                                                         <td><?=$menu->getPrix();?></td>
                                                         <td><a href="http://localhost/restaurantPOO/updatemenu.php?updateMenuId=<?=$num;?>"><button type="button" class="btn btn-sm btn-warning"><i class="fa fa-minus" aria-hidden="true"></i></button></a></td>
