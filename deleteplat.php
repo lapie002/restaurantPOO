@@ -30,13 +30,15 @@ $resp = $platsManager->delete($platAeffacer);
 
 if($resp)
 {
-  $_SESSION['suppressionPlat'] = true;
+  // $_SESSION['suppressionPlat'] = true;
+  header('Location: http://localhost/restaurantPOO/showplats.php?suppressionPlat=true');
 }
 else
 {
-  $_SESSION['suppressionPlat'] = false;
+  // $_SESSION['suppressionPlat'] = false;
+  header('Location: http://localhost/restaurantPOO/showplats.php?suppressionPlat=false');
 }
 
-header('Location: http://localhost/restaurantPOO/showplats.php');
+// header('Location: http://localhost/restaurantPOO/showplats.php');
 
 ?>

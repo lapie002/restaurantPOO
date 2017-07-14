@@ -28,9 +28,12 @@ if(isset($_SESSION['login'])){
   $prenomAdminSession = $_SESSION['prenom'];
 
   //gestion du message success | error pour insertion du plat dans la bdd - pour update avec image
-  if(isset($_SESSION['suppressionPlat']))
+
+  if(isset($_GET['suppressionPlat']))
   {
-    if($_SESSION['suppressionPlat'])
+    $suppressionPlat = $_GET['suppressionPlat'];
+
+    if($suppressionPlat)
     {
        $message = "<div class='alert alert-success fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Bravo !</strong> le plat a bien été supprimé de la base de données.</div>";
     }
@@ -267,7 +270,10 @@ if(isset($_SESSION['login'])){
                             <div class="col-lg-12">
                             <?php
                               //on affiche le message de suuccess | error d insertion
-                              if(isset($message)){echo $message;}
+                              if(isset($message))
+                              {
+                                echo $message;
+                              }
                             ?>
                             </div>
                         </div>

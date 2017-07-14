@@ -27,10 +27,12 @@ if(isset($_SESSION['login'])){
   $nomAdminSession    = $_SESSION['nom'];
   $prenomAdminSession = $_SESSION['prenom'];
 
-  //gestion du message success | error pour insertion du plat dans la bdd - pour update avec image
-  if(isset($_SESSION['suppressionMenu']))
+  //gestion du message success | error pour SUPPRESSION d'un menu dans la bdd
+  if(isset($_GET['suppressionMenu']))
   {
-    if($_SESSION['suppressionMenu'])
+    $suppressionMenu = $_GET['suppressionMenu'];
+
+    if($suppressionMenu)
     {
        $message = "<div class='alert alert-success fade in col-lg-6'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Bravo !</strong> le menu a bien été supprimé de la base de données.</div>";
     }

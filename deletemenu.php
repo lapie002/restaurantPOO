@@ -28,13 +28,12 @@ $resp = $menusManager->delete($menuAeffacer);
 
 if($resp)
 {
-  $_SESSION['suppressionMenu'] = true;
+  header('Location: http://localhost/restaurantPOO/showmenus.php?suppressionMenu=true');
 }
 else
 {
-  $_SESSION['suppressionMenu'] = false;
+  header('Location: http://localhost/restaurantPOO/showmenus.php?suppressionMenu=false');
 }
 
-header('Location: http://localhost/restaurantPOO/showmenus.php');
 
 ?>
