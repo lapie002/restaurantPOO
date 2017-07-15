@@ -43,12 +43,12 @@ if(isset($_POST['creer']))
     $infosfichier = pathinfo($_FILES['image']['name']);
     $extension_upload = $infosfichier['extension'];
 
-    if (in_array($extension_upload, $extensions_autorisees))
+    if(in_array($extension_upload,$extensions_autorisees))
     {
       //echo $file;
       move_uploaded_file($fileTMP, 'uploads/' . $fileNAME);
     }
-  }
+   }
 
   //les variable recuperer apres l envoie du formulaire : Objet Menu
   $nom = $_POST['nom'];
@@ -151,30 +151,57 @@ if(isset($_SESSION['login'])){
     <script type="text/javascript" src="./js/bootstrap-multiselect.js"></script>
     <link rel="stylesheet" href="./css/bootstrap-multiselect.css" type="text/css"/>
 
+<script type="text/javascript">
+    /* soit on met dans des variable soit on recup avec un id: document.getElementById, soit avec le name: document.myForm.title.focus();*/
+
+    // function searchPlats()
+    // {
+    //     var tabIdPlats = document.getElementById('tabIdPlats');
+    //     var selectedPlats = [];
+    //     for (var i = 0; i < tabIdPlats.length; i++) {
+    //         if (tabIdPlats.options[i].selected) selectedPlats.push(tabIdPlats.options[i].value);
+    //     }
+    //     console.log(tabIdPlats);
+    // }​
+
+    function validate()
+    {
+        var nomMenu = document.getElementById('nom').value;
+        var prixMenu = parseFloat(document.getElementById('prix').value);
+        var imageMenu = document.getElementById('fileToUpload').value;
+        var tabIdPlats = document.getElementById('tabIdPlats').value;
+
+
+        // alert(tabIdPlats);
+        // searchPlats();
+
+        if(nomMenu == "" || nomMenu == null)
+        {
+            alert( "Inscrivez un nom pour le menu !" );
+            document.myFormAddMenu.nom.focus();
+            return false;
+         }
+         if(isNaN(prixMenu) || prixMenu < 0 )
+         {
+             alert("Entrez uniquement des caractères numériques pour le prix du menu ! (Entrée autorisée: 0 à 9)");
+             document.myFormAddMenu.prix.focus();
+             return false;
+         }
+         if(imageMenu == "" || imageMenu == null)
+         {
+             alert( "Entrez une image pour le menu !" );
+             document.myFormAddMenu.fileToUpload.focus();
+             return false;
+        }
+
+         return(true);
+    }
+</script>
+
 </head>
 
 <body>
-
 <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-<!--          <div class="collapse navbar-collapse navbar-ex1-collapse">
-              <ul class="nav navbar-nav side-nav">
-                  <li>
-                      <a href="http://localhost/ProjetMVC/index.php?controller=products&action=index" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-edit"></i> Products<i class="fa fa-fw fa-caret-down"></i></a>
-                      <ul id="demo" class="collapse">
-                          <li>
-                              <a href="#">Liste des Produits</a>
-                          </li>
-                          <li>
-                              <a href="#">Ajouter Plat</a>
-                              <a href="#">Ajouter Plat</a>
-                              <a href="#">Ajouter Plat</a>
-                              <a href="#">Ajouter Plat</a>
-                          </li>
-                      </ul>
-                  </li>
-              </ul>
-          </div>    -->
-  <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
@@ -355,7 +382,7 @@ if(isset($_SESSION['login'])){
                                 <div class="col-lg-6">
                                     <!-- onsubmit="return validate();" -->
                                     <!-- <form role="form" method="post" enctype="multipart/form-data" action="" name="myForm"> -->
-                                    <form role="form" action="" method="post" enctype="multipart/form-data">
+                                    <form role="form" action="" method="post" name="myFormAddMenu" onsubmit="return validate();" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label>le nom</label>
                                             <input class="form-control" type="text" name="nom" id="nom" />
@@ -413,9 +440,6 @@ if(isset($_SESSION['login'])){
         $('#tabIdPlats').multiselect();
     });
 </script>
-
-
-
 
 
 </html>

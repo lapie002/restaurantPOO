@@ -105,30 +105,45 @@ if(isset($_SESSION['login'])){
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
+<!-- mon script de validation du formulaire -->
+<!-- <script src="./js/validation.js"></script> -->
+<script type="text/javascript">
+
+/* soit on met dans des variable soit on recup avec un id: document.getElementById, soit avec le name: document.myForm.title.focus();*/
+function validate()
+{
+    var nomPlat = document.getElementById('nom').value;
+    var prixPlat = parseFloat(document.getElementById('prix').value);
+    var imagePlat = document.getElementById('fileToUpload').value;
+
+    if(nomPlat == "" || nomPlat == null)
+    {
+        alert( "Inscrivez un nom pour le plat !" );
+        document.myFormAddPlat.nom.focus();
+        return false;
+     }
+     if(isNaN(prixPlat) || prixPlat < 0 )
+     {
+         alert("Entrez uniquement des caractères numériques pour le prix du plat! (Entrée autorisée: 0 à 9)");
+         document.myFormAddPlat.prix.focus();
+         return false;
+     }
+     if( imagePlat == "" || imagePlat == null )
+     {
+         alert( "Entrez une image pour le plat!" );
+         document.myFormAddPlat.fileToUpload.focus();
+         return false;
+    }
+
+     return(true);
+}
+</script>
+
 </head>
 
 <body>
-
 <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-<!--          <div class="collapse navbar-collapse navbar-ex1-collapse">
-              <ul class="nav navbar-nav side-nav">
-                  <li>
-                      <a href="http://localhost/ProjetMVC/index.php?controller=products&action=index" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-edit"></i> Products<i class="fa fa-fw fa-caret-down"></i></a>
-                      <ul id="demo" class="collapse">
-                          <li>
-                              <a href="#">Liste des Produits</a>
-                          </li>
-                          <li>
-                              <a href="#">Ajouter Plat</a>
-                              <a href="#">Ajouter Plat</a>
-                              <a href="#">Ajouter Plat</a>
-                              <a href="#">Ajouter Plat</a>
-                          </li>
-                      </ul>
-                  </li>
-              </ul>
-          </div>    -->
-  <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
@@ -310,7 +325,7 @@ if(isset($_SESSION['login'])){
                                 <div class="col-lg-6">
                                     <!-- onsubmit="return validate();" -->
                                     <!-- <form role="form" method="post" enctype="multipart/form-data" action="" name="myForm"> -->
-                                    <form role="form" action="" method="post" enctype="multipart/form-data">
+                                    <form role="form" action="" method="post" name="myFormAddPlat" onsubmit="return validate();" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label>le nom</label>
                                             <input class="form-control" type="text" name="nom" id="nom" />
@@ -348,6 +363,8 @@ if(isset($_SESSION['login'])){
 
 <!-- Bootstrap Core JavaScript -->
 <script src="./js/bootstrap.min.js"></script>
+
+
 
 </html>
 <?php
