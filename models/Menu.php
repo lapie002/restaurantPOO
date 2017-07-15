@@ -52,23 +52,6 @@ class Menu
     }
    }
 
-   // avoir si on laisse la methode la ???
-  //  public function setPrix(array $plats)
-  //  {
-  //     # on met la valeur du prix à zero
-  //     $prix = 0.0;
-   //
-  //     foreach ($plats as $key => $value) {
-  //       # code...
-  //       $prix = $prix + $value->getPrix;
-  //     }
-  //     // On vérifie que l id superieur à zero
-  //     if($prix > 0.0)
-  //     {
-  //       $this->_prix = $prix;
-  //     }
-  //  }
-
   //Set prix du menu
   public function setPrix($prix)
   {

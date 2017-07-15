@@ -83,48 +83,6 @@ class PlatsManager {
        }
      }
 
-
-    //  public function get($info)
-    //  {
-    //    // Si le paramètre est un entier, on veut récupérer le personnage avec son identifiant.
-    //      // Exécute une requête de type SELECT avec une clause WHERE, et retourne un objet Personnage.
-    //      if(is_int($info)){
-    //        $q = $this->_db->query('SELECT id, nom, degats FROM personnages WHERE id = '.$info);
-     //
-    //        $donnees = $q->fetch(PDO::FETCH_ASSOC);
-     //
-    //        return new Personnage($donnees);
-    //      }
-    //    // Sinon, on veut récupérer le personnage avec son nom.
-    //    // Exécute une requête de type SELECT avec une clause WHERE, et retourne un objet Personnage.
-    //    else {
-    //        $q = $this->_db->prepare('SELECT id, nom, degats FROM personnages WHERE nom = :nom');
-    //        $q->execute([':nom' => $info]);
-     //
-    //        $donnees = $q->fetch(PDO::FETCH_ASSOC);
-     //
-    //        return new Personnage($donnees);
-    //    }
-    //  }
-    //
-    //  public function getList($nom)
-    //  {
-    //    // Retourne la liste des personnages dont le nom n'est pas $nom.
-    //    // Le résultat sera un tableau d'instances de Personnage.
-    //    $persos = [];
-     //
-    //    $q = $this->_db->prepare('SELECT id, nom, degats FROM personnages WHERE nom <> :nom ORDER BY nom');
-    //    $q->execute([':nom' => $nom]);
-     //
-    //    while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
-    //    {
-    //      $persos[] = new Personnage($donnees);
-    //    }
-    //
-    //    return $persos;
-    //
-    //  }
-
      public function update(Plat $plat)
      {
        // Prépare une requête de type UPDATE.
@@ -181,12 +139,8 @@ class PlatsManager {
           // var_dump($donnees);
           $plats[] = new Plat($donnees);
 
-          // $plats[] = getPLat($donnees['IDPLAT']);
-
         }
-
         return $plats;
-
      }
 
 

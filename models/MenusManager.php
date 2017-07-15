@@ -176,7 +176,7 @@ class MenusManager {
 
     // $res = $q;
 
-     var_dump($res);
+    //  var_dump($res);
 
      return $res;
 
@@ -261,9 +261,5 @@ class MenusManager {
 
      return $q;
    }
-
-
-
-
 
 }
