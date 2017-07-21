@@ -13,9 +13,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="index.php">Accueil</a></li>
-
-                    <li><a href="#">Menu</a></li>
+                     <li><a href="index.php">Accueil</a></li>
+                     <li><a href="menu.php">Menu</a></li>
                      <li><a href="#">Info</a></li>
                      <li><a href="login.php">Login</a></li>
                 </ul>
