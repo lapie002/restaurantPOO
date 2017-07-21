@@ -26,14 +26,8 @@ class MenusManager {
    $q->bindValue(':prix',$menu->getPrix());
    $q->bindValue(':image',$menu->getImage());
 
-   //$q->bindValue(':nom',$menu->getNom(),PDO::PARAM_STR);
-   // $q->bindValue(':prix',0.0);
-   // $q->bindValue(':image','hello.jpg');
 
    $reponse = $q->execute();
-
-  // $q = bindValue(':degats',$perso->_degats,PDO::PARAM_INT);
-  //  $q = bindValue(':degats',0);
 
 
     // Hydratation du Menu passé en paramètre avec assignation de son identifiant et du prix initial.

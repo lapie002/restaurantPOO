@@ -30,14 +30,13 @@ include "frontoffice/mainmenu.php";
 <!-- Page Content -->
 <section>
 <div class="container">
-  <div class="row text-center" >
+  <div class="row text-center">
       <div class="col-md-12">
-                  <h1>Les Menus</h1>
+          <h1>Les Menus</h1>
       </div>
   </div>
         <div class="row">
             <div class="col-md-12">
-
               <?php
               //on recupere touts les plats de la bdd :
               $menus = $menusManager->selectAllMenus();
